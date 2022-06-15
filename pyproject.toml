@@ -9,7 +9,7 @@ include = ["armada/**/*.py"]
 [tool.poetry.dependencies]
 python = "^3.7"
 apache-airflow = "^2.3.1"
-armada-client = {path = "../armada-andrew/client/python/dist/armada_client-0.1.0-py3-none-any.whl"}
+armada-client = {path = "../armada-kevin/client/python/dist/armada_client-0.1.0-py3-none-any.whl"}
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"

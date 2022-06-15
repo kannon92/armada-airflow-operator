@@ -42,13 +42,14 @@ def submit_sleep_job():
     return [submit_pb2.JobSubmitRequestItem(priority=1, pod_spec=pod)]
 
 with DAG(
-    dag_id='hello_with_armada_imports',
+    dag_id='hello_armada',
     start_date=pendulum.datetime(2016, 1, 1, tz="UTC"),
     schedule_interval='@daily',
     catchup=False,
     default_args={'retries': 2},
 ) as dag:
+    no_auth_client = ArmadaClient(channel=grpc.insecure_channel(target="127.0.0.1:50051"))
 
     op = BashOperator(task_id='dummy', bash_command='echo Hello World!')
-    op_2 = BashOperator(task_id='dummy_2', bash_command='echo Hello World!')
-    op >> op_2
+    armada = ArmadaOperator(task_id='armada', name='armada', queue='test', job_set_id='job-set-1', armada_client=no_auth_client, job_request_items = submit_sleep_job())
+    op >> armada
